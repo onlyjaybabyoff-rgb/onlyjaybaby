@@ -685,19 +685,6 @@
     <div class="kicker" style="text-align:center;">En images</div>
     <div class="clip-pair">
       <div class="clip-frame">
-        <div class="anim-player" id="animPlayer">
-          <canvas id="animCanvas" aria-label="Clip animé de Making peace"></canvas>
-          <div class="anim-fade" id="animFade"></div>
-          <div class="anim-sub" id="animSub" aria-live="off"></div>
-          <button type="button" class="anim-play" id="animPlay">Lancer le clip animé</button>
-          <div class="anim-bar" id="animBar"></div>
-        </div>
-        <audio id="clipVideo" src="making-peace-audio.mp4" preload="metadata"></audio>
-        <canvas class="spectrum" id="spectrum" width="760" height="128" aria-hidden="true"></canvas>
-        <p class="clip-caption">Making peace — clip animé, 30 secondes</p>
-        <p class="spectrum-hint" id="spectrumHint">Lance le clip : le spectre audio se dessine en direct.</p>
-      </div>
-      <div class="clip-frame">
         <video id="lifeVideo" controls playsinline muted preload="metadata" poster="life-poster.jpg" src="life-clip.mp4"></video>
         <p class="clip-caption">Life — coulisses</p>
       </div>
@@ -1061,7 +1048,6 @@
     {what:'Un morceau', title:'Life', label:'Écouter sur Spotify →', href:'https://open.spotify.com/track/630CoxrTU1xtK6bTFOLqdL'},
     {what:'Un morceau', title:'Making peace', label:'Écouter →', href:'https://distrokid.com/hyperfollow/onlyjaybaby/making-peace'},
     {what:'Bientôt', title:'Sur moi, le 23 octobre', label:'Faire le pré-save →', href:'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi'},
-    {what:'Une vidéo', title:'Making peace, l\'extrait', label:'Voir la vidéo →', target:'clip'},
     {what:'Une vidéo', title:'Life, les coulisses', label:'Voir la vidéo →', target:'clip'}
   ];
   photos.forEach(function(img, i){ pool.push({what:'Une photo', title:'Photo n° ' + (i + 1) + ' de la galerie', label:'Voir en grand →', photo:img}); });
