@@ -1362,7 +1362,7 @@
     renderer.setSize(260, 260, false);
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(35, 1, 0.1, 50);
-    camera.position.set(0, 0, 4.6);
+    camera.position.set(0, 0, 5.3);
 
     // top texture: grooves + gold label
     var c = document.createElement('canvas'); c.width = c.height = 1024;
@@ -1403,7 +1403,7 @@
     var disc = new THREE.Mesh(geo, [side, top, side]);
     var group = new THREE.Group();
     group.add(disc);
-    group.rotation.x = 1.15;
+    group.rotation.x = Math.PI / 2;                 // disque vu de face : bien rond
     scene.add(group);
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.55));
@@ -1419,7 +1419,6 @@
       var dx = e.clientX - lastX, dy = e.clientY - lastY;
       lastX = e.clientX; lastY = e.clientY;
       spin += dx * 0.0008;
-      group.rotation.x = Math.max(0.3, Math.min(1.5, group.rotation.x + dy * 0.008));
     });
 
     renderer.render(scene, camera);
