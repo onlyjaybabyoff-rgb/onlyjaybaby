@@ -532,6 +532,14 @@
   .vip.unlocked .vip-list .name{ color:var(--cream); }
   .vip.unlocked .vip-list .state{ color:var(--gold-bright); }
   .vip-secret{ margin-top:26px; font-size:12px; color:var(--smoke-dim); font-style:italic; }
+  .vip-track{ display:flex; align-items:center; gap:22px; padding:22px 0 30px 0; margin-bottom:8px; flex-wrap:wrap; }
+  .vip [hidden]{ display:none !important; }
+  .vip-track img{ width:96px; height:96px; object-fit:cover; flex:none; }
+  .vip-track .vt-body{ flex:1; min-width:220px; }
+  .vip-track .vt-kicker{ font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-bright); margin-bottom:6px; }
+  .vip-track .vt-title{ font-family:var(--font-display); font-size:28px; color:var(--cream); margin:0 0 12px 0; }
+  .vip-track audio{ width:100%; max-width:440px; display:block; }
+  .vip-track .vt-msg{ font-size:13px; color:var(--smoke); min-height:18px; }
 </style>
 </head>
 <body>
@@ -743,6 +751,19 @@
         <button type="submit" class="btn-ghost">Entrer</button>
       </form>
       <div class="vip-msg" id="vipMsg" aria-live="polite"></div>
+    </div>
+    <div class="vip-track" id="vipTrack" hidden>
+      <img src="sur-moi-cover.jpg" alt="Pochette de Sur moi">
+      <div class="vt-body">
+        <div class="vt-kicker">En avant-première</div>
+        <h3 class="vt-title">Sur moi</h3>
+        <form class="field-row" id="vipTrackForm" hidden>
+          <input type="text" id="vipTrackCode" maxlength="24" placeholder="Code pour écouter" autocomplete="off" aria-label="Code pour écouter">
+          <button type="submit" class="btn-ghost">Écouter</button>
+        </form>
+        <audio id="vipAudio" controls controlsList="nodownload" preload="none" hidden></audio>
+        <div class="vt-msg" id="vipTrackMsg" aria-live="polite"></div>
+      </div>
     </div>
     <ul class="vip-list" id="vipList">
       <li><span class="name">Freestyle inédit</span><span class="state">Verrouillé</span></li>
@@ -1157,9 +1178,42 @@
   var input = document.getElementById('vipCode');
   var msg = document.getElementById('vipMsg');
   if(!sec || !form || !input) return;
-  var HASH = 1998505394;
+  var HASH = 2085888261;
+  var track = document.getElementById('vipTrack');
+  var trackForm = document.getElementById('vipTrackForm');
+  var trackInput = document.getElementById('vipTrackCode');
+  var trackMsg = document.getElementById('vipTrackMsg');
+  var player = document.getElementById('vipAudio');
+  // le morceau est chiffré avec le code : sans lui, le fichier en ligne ne s'écoute pas
+  function loadTrack(code){
+    if(!window.crypto || !crypto.subtle){ trackMsg.textContent = 'Ton navigateur ne peut pas lire ce morceau.'; return; }
+    trackForm.hidden = true;
+    trackMsg.textContent = 'Ouverture du morceau…';
+    var enc = new TextEncoder();
+    fetch('vip-a.bin').then(function(r){ if(!r.ok) throw new Error('fetch'); return r.arrayBuffer(); }).then(function(buf){
+      var salt = buf.slice(0, 16), iv = buf.slice(16, 28), data = buf.slice(28);
+      return crypto.subtle.importKey('raw', enc.encode(code), 'PBKDF2', false, ['deriveKey']).then(function(base){
+        return crypto.subtle.deriveKey({name:'PBKDF2', salt:salt, iterations:600000, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, false, ['decrypt']);
+      }).then(function(key){
+        return crypto.subtle.decrypt({name:'AES-GCM', iv:iv}, key, data);
+      });
+    }).then(function(plain){
+      player.src = URL.createObjectURL(new Blob([plain], {type:'audio/mp4'}));
+      player.hidden = false;
+      trackMsg.textContent = '';
+      try{ localStorage.setItem('ojb-vip-code', code); }catch(err){}
+    }).catch(function(){
+      trackMsg.textContent = 'Impossible d\'ouvrir le morceau avec ce code.';
+      trackForm.hidden = false;
+    });
+  }
+  trackForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var v = trackInput.value.replace(/\s+/g, '').toUpperCase();
+    if(v) loadTrack(v);
+  });
   function h(t){ var v = 5381; for(var i = 0; i < t.length; i++){ v = ((v * 33) ^ t.charCodeAt(i)) >>> 0; } return v; }
-  function unlock(how, animate){
+  function unlock(how, animate, code){
     if(sec.classList.contains('unlocked')) return;
     sec.classList.add('unlocked');
     document.getElementById('vipKicker').textContent = 'Espace VIP — ouvert';
@@ -1177,11 +1231,15 @@
       }
     });
     try{ localStorage.setItem('ojb-vip', '1'); }catch(err){}
+    track.hidden = false;
+    var known = code;
+    if(!known){ try{ known = localStorage.getItem('ojb-vip-code'); }catch(err){} }
+    if(known) loadTrack(known); else trackForm.hidden = false;
   }
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var v = input.value.replace(/\s+/g, '').toUpperCase();
-    if(h(v) === HASH){ unlock('code', true); }
+    if(h(v) === HASH){ unlock('code', true, v); }
     else { msg.textContent = 'Ce code ne marche pas. Vérifie les majuscules et les chiffres.'; }
   });
   try{ if(localStorage.getItem('ojb-vip') === '1') unlock('code', false); }catch(err){}
