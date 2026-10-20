@@ -239,6 +239,43 @@
   .release-meta{ font-size:13px; color:var(--smoke); }
   .ecoute-cover{ width:56px; height:56px; object-fit:cover; vertical-align:middle; margin-right:16px; box-shadow:0 8px 20px rgba(0,0,0,0.4); }
 
+  /* SORTIES : CARROUSEL DE POCHETTES ET LECTEUR */
+  .discs{ overflow:hidden; isolation:isolate; }
+  .discs-glow{ position:absolute; inset:-15%; z-index:-1; background-size:cover; background-position:center; filter:blur(90px) saturate(1.5); opacity:0.55; transform:scale(1.1); transition:background-image .6s ease, opacity .6s ease; }
+  .discs-glow::after{ content:""; position:absolute; inset:0; background:radial-gradient(ellipse at center, transparent 30%, var(--bg) 78%); }
+  .discs-kicker{ text-align:center; font-size:13px; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:34px; }
+  .discs-stage{ position:relative; height:clamp(360px, 52vw, 470px); perspective:1300px; outline:none; touch-action:pan-y; }
+  .disc-card{ position:absolute; left:50%; top:0; width:min(300px, 62vw); margin-left:calc(min(300px, 62vw) / -2); padding:12px 12px 16px; border-radius:24px;
+    background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 30px 70px rgba(0,0,0,0.45); color:var(--cream); font-family:var(--font-body); text-align:center; cursor:pointer;
+    transition:transform .65s cubic-bezier(.22,1,.36,1), opacity .65s ease, filter .65s ease; }
+  .disc-card img{ display:block; width:100%; height:auto; aspect-ratio:1; object-fit:cover; border-radius:16px; }
+  .disc-title{ display:block; margin-top:14px; font-family:var(--font-display); font-size:22px; line-height:1.15; }
+  .disc-sub{ display:block; margin-top:4px; font-size:13px; color:var(--smoke); }
+  .disc-card:focus-visible{ outline:2px solid var(--gold-bright); outline-offset:4px; }
+  .discs-bar{ position:relative; display:flex; align-items:center; gap:18px; max-width:760px; margin:26px auto 0; padding:10px 14px 10px 18px; border-radius:999px;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); }
+  .bar-ctrl{ display:flex; align-items:center; gap:6px; flex:0 0 auto; }
+  .bar-btn{ width:42px; height:42px; border:none; border-radius:50%; background:transparent; color:var(--cream); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+  .bar-btn svg{ width:20px; height:20px; fill:currentColor; }
+  .bar-btn:hover{ background:rgba(255,255,255,0.1); }
+  .bar-play{ background:var(--gold-bright); color:var(--bg); }
+  .bar-play:hover{ background:var(--cream); }
+  .bar-play[disabled]{ opacity:0.35; cursor:default; background:var(--gold-bright); }
+  .bar-now{ position:relative; flex:1; min-width:0; display:flex; align-items:center; gap:12px; padding:6px 10px 10px 6px; border-radius:14px; background:rgba(8,6,5,0.55); }
+  .bar-now img{ width:44px; height:44px; border-radius:9px; object-fit:cover; flex:0 0 auto; }
+  .bar-txt{ display:flex; flex-direction:column; min-width:0; }
+  .bar-txt span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #discNowTitle{ font-size:15px; font-weight:700; color:#f3eadb; }
+  #discNowSub{ font-size:12px; color:#b8ad9c; }
+  .bar-prog{ position:absolute; left:62px; right:14px; bottom:6px; height:3px; border-radius:3px; background:rgba(255,255,255,0.15); overflow:hidden; }
+  .bar-prog span{ display:block; height:100%; width:100%; background:var(--gold-bright); transform:scaleX(0); transform-origin:left; }
+  .bar-link{ flex:0 0 auto; padding:11px 18px; border-radius:999px; background:var(--cream); color:var(--bg); font-size:12px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; white-space:nowrap; }
+  .discs-platforms{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px 22px; margin-top:22px; min-height:20px; }
+  .discs-platforms a{ font-size:13px; color:var(--gold); border-bottom:1px solid var(--hairline); }
+  @media (max-width:620px){ .discs-bar{ flex-wrap:wrap; border-radius:26px; padding:12px; justify-content:center; } .bar-now{ order:-1; flex-basis:100%; } .bar-link{ padding:11px 16px; } }
+  @media (prefers-reduced-motion: reduce){ .disc-card{ transition:none; } }
+
   /* CLIP ANIMÉ */
   .anim-player{ position:relative; width:100%; aspect-ratio:9/16; max-width:100%; background:#0b0a08; border:1px solid var(--hairline); overflow:hidden; }
   .anim-player canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
@@ -670,23 +707,40 @@
   </div>
 </section>
 
-<section id="ecoute" class="reveal">
+<section id="ecoute" class="reveal discs">
+  <div class="discs-glow" id="discsGlow" aria-hidden="true"></div>
   <div class="section-index">03</div>
   <div class="wrap section-inner">
-    <div class="kicker" style="font-size:13px; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px;">Déjà disponible</div>
-    <a class="release-row" href="https://distrokid.com/hyperfollow/onlyjaybaby/making-peace" target="_blank" rel="noopener">
-      <img src="making-peace-cover.jpg" alt="Pochette de Making peace" width="400" height="400">
-      <span class="release-info"><span class="release-name">Making peace</span><span class="release-meta">Sorti le 15 octobre 2026 · toutes les plateformes</span></span>
-      <span class="platform-arrow">→</span>
-    </a>
-    <h2 class="ecoute-title"><img class="ecoute-cover" src="life-cover.jpg" alt="Pochette de Life" width="400" height="400">Life, <em>le premier single.</em></h2>
-    <div class="platform-list">
-      <a class="platform-row" href="https://open.spotify.com/track/630CoxrTU1xtK6bTFOLqdL" target="_blank" rel="noopener"><span class="platform-name">Spotify</span><span class="platform-arrow">→</span></a>
-      <a class="platform-row" href="https://music.apple.com/fr/album/life/6813283540?i=6813283541" target="_blank" rel="noopener"><span class="platform-name">Apple Music</span><span class="platform-arrow">→</span></a>
-      <a class="platform-row" href="https://music.youtube.com/watch?v=QLqpdzLhPEo" target="_blank" rel="noopener"><span class="platform-name">YouTube Music</span><span class="platform-arrow">→</span></a>
-      <a class="platform-row" href="https://link.deezer.com/s/34tEs08K3ZdqpbOyrmtoK" target="_blank" rel="noopener"><span class="platform-name">Deezer</span><span class="platform-arrow">→</span></a>
+    <div class="kicker discs-kicker">Déjà disponible</div>
+    <div class="discs-stage" id="discsStage" tabindex="0" aria-label="Sorties d'onlyjaybaby. Flèches gauche et droite pour changer de titre.">
+      <button type="button" class="disc-card" data-i="0" aria-label="Life">
+        <img src="life-cover.jpg" alt="Pochette de Life" width="400" height="400">
+        <span class="disc-title">Life</span><span class="disc-sub">Premier single</span>
+      </button>
+      <button type="button" class="disc-card" data-i="1" aria-label="Making peace">
+        <img src="making-peace-cover.jpg" alt="Pochette de Making peace" width="400" height="400">
+        <span class="disc-title">Making peace</span><span class="disc-sub">Sorti le 15 octobre 2026</span>
+      </button>
+      <button type="button" class="disc-card" data-i="2" aria-label="Sur moi">
+        <img src="sur-moi-cover.jpg" alt="Pochette de Sur moi" width="800" height="800">
+        <span class="disc-title">Sur moi</span><span class="disc-sub">Le 23 octobre 2026</span>
+      </button>
     </div>
-    <a class="all-platforms" href="https://distrokid.com/hyperfollow/onlyjaybaby/life" target="_blank" rel="noopener">Voir sur toutes les plateformes →</a>
+    <div class="discs-bar" role="group" aria-label="Lecteur">
+      <div class="bar-ctrl">
+        <button type="button" class="bar-btn" id="discPrev" aria-label="Titre précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6v12L3 12zM21 6v12l-8-6z"/></svg></button>
+        <button type="button" class="bar-btn bar-play" id="discPlay" aria-label="Écouter l'extrait"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="discPlayIcon" d="M7 5v14l12-7z"/></svg></button>
+        <button type="button" class="bar-btn" id="discNext" aria-label="Titre suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6v12l8-6zM13 6v12l8-6z"/></svg></button>
+      </div>
+      <div class="bar-now">
+        <img id="discNowImg" src="making-peace-cover.jpg" alt="" width="44" height="44">
+        <div class="bar-txt"><span id="discNowTitle">Making peace</span><span id="discNowSub">onlyjaybaby</span></div>
+        <div class="bar-prog"><span id="discProg"></span></div>
+      </div>
+      <a class="bar-link" id="discLink" href="https://distrokid.com/hyperfollow/onlyjaybaby/making-peace" target="_blank" rel="noopener">Écouter →</a>
+    </div>
+    <div class="discs-platforms" id="discPlatforms"></div>
+    <audio id="discAudio" preload="none"></audio>
   </div>
 </section>
 
@@ -2293,6 +2347,68 @@
   }
   if('ResizeObserver' in window){ new ResizeObserver(resize).observe(player); } else { window.addEventListener('resize', resize); }
   resize();
+})();
+</script>
+<script>
+// SORTIES : carrousel de pochettes + lecteur d'extraits
+(function(){
+  var stage = document.getElementById('discsStage');
+  if(!stage) return;
+  var cards = Array.prototype.slice.call(stage.querySelectorAll('.disc-card'));
+  var glow = document.getElementById('discsGlow'), audio = document.getElementById('discAudio');
+  var play = document.getElementById('discPlay'), icon = document.getElementById('discPlayIcon'), prog = document.getElementById('discProg');
+  var nowImg = document.getElementById('discNowImg'), nowTitle = document.getElementById('discNowTitle'), nowSub = document.getElementById('discNowSub');
+  var link = document.getElementById('discLink'), plats = document.getElementById('discPlatforms');
+  var RELEASES = [
+    {title:'Life', cover:'life-cover.jpg', src:'life-clip.mp4', link:'https://distrokid.com/hyperfollow/onlyjaybaby/life', label:'Écouter →', sub:'onlyjaybaby · extrait des coulisses',
+      platforms:[['Spotify', 'https://open.spotify.com/track/630CoxrTU1xtK6bTFOLqdL'], ['Apple Music', 'https://music.apple.com/fr/album/life/6813283540?i=6813283541'], ['YouTube Music', 'https://music.youtube.com/watch?v=QLqpdzLhPEo'], ['Deezer', 'https://link.deezer.com/s/34tEs08K3ZdqpbOyrmtoK']]},
+    {title:'Making peace', cover:'making-peace-cover.jpg', src:'making-peace-audio.mp4', link:'https://distrokid.com/hyperfollow/onlyjaybaby/making-peace', label:'Écouter →', sub:'onlyjaybaby · extrait de 30 s',
+      platforms:[['Toutes les plateformes', 'https://distrokid.com/hyperfollow/onlyjaybaby/making-peace']]},
+    {title:'Sur moi', cover:'sur-moi-cover.jpg', src:null, link:'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi', label:'Pré-save →', sub:'Sortie le 23 octobre 2026',
+      platforms:[['Pré-save sur Spotify', 'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi']]}
+  ];
+  if(Date.now() >= new Date(2026, 9, 23).getTime()){ RELEASES[2].label = 'Écouter →'; RELEASES[2].sub = 'onlyjaybaby'; RELEASES[2].platforms[0][0] = 'Toutes les plateformes'; }
+  var cur = 1;
+  var PLAY = 'M7 5v14l12-7z', PAUSE = 'M6 5h4v14H6zM14 5h4v14h-4z';
+  function layout(){
+    cards.forEach(function(c, i){
+      var d = i - cur, a = Math.abs(d);
+      c.style.transform = 'translateX(' + (d * 64) + '%) translateZ(' + (-a * 160) + 'px) rotateY(' + (-d * 26) + 'deg) scale(' + (1 - a * 0.1) + ')';
+      c.style.zIndex = 10 - a; c.style.opacity = a > 1 ? 0 : (a ? 0.72 : 1); c.style.filter = a ? 'brightness(0.7)' : 'none';
+      c.setAttribute('aria-current', a ? 'false' : 'true');
+    });
+    var r = RELEASES[cur];
+    glow.style.backgroundImage = 'url("' + r.cover + '")';
+    nowImg.src = r.cover; nowTitle.textContent = r.title; nowSub.textContent = r.sub;
+    link.href = r.link; link.textContent = r.label;
+    play.disabled = !r.src;
+    play.setAttribute('aria-label', r.src ? 'Écouter l\'extrait de ' + r.title : 'Pas encore d\'extrait pour ' + r.title);
+    plats.textContent = '';
+    r.platforms.forEach(function(p){ var a = document.createElement('a'); a.href = p[1]; a.target = '_blank'; a.rel = 'noopener'; a.textContent = p[0] + ' →'; plats.appendChild(a); });
+  }
+  function stop(){ audio.pause(); icon.setAttribute('d', PLAY); prog.style.transform = 'scaleX(0)'; }
+  function go(i){ i = Math.max(0, Math.min(cards.length - 1, i)); if(i === cur) return; stop(); audio.removeAttribute('src'); cur = i; layout(); }
+  cards.forEach(function(c, i){ c.addEventListener('click', function(){ if(i !== cur) go(i); else if(RELEASES[i].src) toggle(); else window.open(RELEASES[i].link, '_blank', 'noopener'); }); });
+  document.getElementById('discPrev').addEventListener('click', function(){ go(cur - 1); });
+  document.getElementById('discNext').addEventListener('click', function(){ go(cur + 1); });
+  stage.addEventListener('keydown', function(e){ if(e.key === 'ArrowLeft'){ e.preventDefault(); go(cur - 1); } if(e.key === 'ArrowRight'){ e.preventDefault(); go(cur + 1); } });
+  var sx = null;
+  stage.addEventListener('pointerdown', function(e){ sx = e.clientX; });
+  stage.addEventListener('pointerup', function(e){ if(sx === null) return; var dx = e.clientX - sx; sx = null; if(Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1)); });
+  function toggle(){
+    var r = RELEASES[cur]; if(!r.src) return;
+    if(!audio.paused){ audio.pause(); return; }
+    if(audio.getAttribute('src') !== r.src) audio.src = r.src;
+    var lv = document.getElementById('lifeVideo'); if(lv) lv.pause();
+    var p = audio.play(); if(p && p.catch) p.catch(function(){ icon.setAttribute('d', PLAY); });
+  }
+  play.addEventListener('click', toggle);
+  audio.addEventListener('play', function(){ icon.setAttribute('d', PAUSE); });
+  audio.addEventListener('pause', function(){ icon.setAttribute('d', PLAY); });
+  audio.addEventListener('ended', function(){ stop(); });
+  audio.addEventListener('timeupdate', function(){ if(audio.duration) prog.style.transform = 'scaleX(' + (audio.currentTime / audio.duration) + ')'; });
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(en){ if(!en[0].isIntersecting) audio.pause(); }).observe(stage); }
+  layout();
 })();
 </script>
 </body>
