@@ -514,8 +514,11 @@
     color:var(--cream); font-family:var(--font-body); font-size:16px; padding:12px 4px; outline:none;
   }
   .field-row input:focus{ border-color:var(--gold); }
-  .fan-card{ margin-top:26px; max-width:300px; }
-  .fan-card img{ display:block; width:100%; border:1px solid var(--hairline); }
+  .fan-card{ margin-top:30px; max-width:330px; perspective:900px; }
+  .fan-card img{ display:block; width:100%; border-radius:18px; box-shadow:0 28px 60px rgba(0,0,0,0.55), 0 0 0 1px var(--hairline);
+    transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease; transform:rotateX(4deg) rotateY(-6deg); }
+  .fan-card img:hover{ transform:rotateX(0) rotateY(0) translateY(-4px); box-shadow:0 36px 70px rgba(0,0,0,0.6), 0 0 0 1px var(--hairline); }
+  @media (prefers-reduced-motion: reduce){ .fan-card img, .fan-card img:hover{ transform:none; } }
   .fan-card .note{ margin-top:10px; font-size:12px; color:var(--smoke-dim); }
 
   /* VIP */
@@ -1111,44 +1114,93 @@
   var title = document.getElementById('fanTitle');
   if(!form || !input || !card || !img) return;
 
-  function draw(name){
-    var W = 1080, H = 1350;
+  // la pochette sert de fond à la carte ; chargée une seule fois
+  var coverImg = null;
+  function loadCover(){
+    if(coverImg) return Promise.resolve(coverImg);
+    return new Promise(function(res){
+      var im = new Image();
+      im.onload = function(){ coverImg = im; res(im); };
+      im.onerror = function(){ res(null); };
+      im.src = 'sur-moi-cover.jpg';
+    });
+  }
+  // texte espacé lettre par lettre (petites capitales des billets)
+  function spaced(x, text, cx, y, gap, align){
+    var w = 0, i;
+    for(i = 0; i < text.length; i++) w += x.measureText(text[i]).width + (i < text.length - 1 ? gap : 0);
+    var px = align === 'left' ? cx : align === 'right' ? cx - w : cx - w / 2;
+    var prev = x.textAlign; x.textAlign = 'left';
+    for(i = 0; i < text.length; i++){ x.fillText(text[i], px, y); px += x.measureText(text[i]).width + gap; }
+    x.textAlign = prev;
+  }
+  function roundRect(x, l, t, w, h, r){
+    x.beginPath(); x.moveTo(l + r, t); x.arcTo(l + w, t, l + w, t + h, r); x.arcTo(l + w, t + h, l, t + h, r);
+    x.arcTo(l, t + h, l, t, r); x.arcTo(l, t, l + w, t, r); x.closePath();
+  }
+  function draw(name, cover){
+    var W = 1080, H = 1350, RED = '#a8161a', INK = '#16120f', CREAM = '#f3eadb';
     var c = document.createElement('canvas'); c.width = W; c.height = H;
     var x = c.getContext('2d');
     x.fillStyle = '#0b0a08'; x.fillRect(0, 0, W, H);
-    // sillons de vinyle
-    for(var r = 120; r < 1100; r += 13){
-      x.strokeStyle = 'rgba(201,160,106,' + (0.05 + 0.09 * Math.abs(Math.sin(r * 1.7))) + ')';
-      x.lineWidth = 1.5; x.beginPath(); x.arc(W / 2, 560, r, 0, Math.PI * 2); x.stroke();
-    }
-    var g = x.createLinearGradient(0, 700, 0, H);
-    g.addColorStop(0, 'rgba(11,10,8,0)'); g.addColorStop(0.55, 'rgba(11,10,8,0.94)');
-    x.fillStyle = g; x.fillRect(0, 700, W, H - 700);
-    x.fillStyle = '#c9a06a'; x.beginPath(); x.arc(W / 2, 560, 210, 0, Math.PI * 2); x.fill();
-    x.fillStyle = '#0b0a08'; x.textAlign = 'center';
-    x.font = 'italic 500 84px Fraunces, Georgia, serif';
-    x.fillText('Sur', W / 2, 545); x.fillText('moi', W / 2, 632);
-    x.beginPath(); x.arc(W / 2, 560 - 150, 9, 0, Math.PI * 2); x.fill();
-    x.fillStyle = '#f0e6d2';
-    x.font = 'italic 500 46px Fraunces, Georgia, serif';
-    x.fillText('onlyjaybaby', W / 2, 120);
-    x.fillStyle = '#e8c690';
-    x.font = '700 26px Manrope, Arial, sans-serif';
-    x.fillText('C E T T E   C A R T E   A P P A R T I E N T   À', W / 2, 985);
-    x.fillStyle = '#f0e6d2';
-    var size = 150;
-    do { x.font = '600 ' + size + 'px Fraunces, Georgia, serif'; size -= 6; } while(x.measureText(name).width > W - 160 && size > 50);
-    x.fillText(name, W / 2, 1130);
-    x.strokeStyle = 'rgba(201,160,106,0.5)'; x.lineWidth = 2;
-    x.beginPath(); x.moveTo(140, 1195); x.lineTo(W - 140, 1195); x.stroke();
-    x.fillStyle = '#8f8577';
-    x.font = '600 28px Manrope, Arial, sans-serif';
-    x.fillText('Nouveau single  ·  23.10.2026', W / 2, 1260);
-    return c.toDataURL('image/jpeg', 0.9);
+    // fond : la pochette de Sur moi, recadrée sur toute la hauteur
+    if(cover){ var sz = H * 1.02; x.drawImage(cover, (W - sz) / 2, -95, sz, sz); }   // le titre imprimé de la pochette passe sous le talon
+    else { var rg = x.createRadialGradient(W / 2, 520, 40, W / 2, 520, 760); rg.addColorStop(0, '#7a0f12'); rg.addColorStop(1, '#0b0a08'); x.fillStyle = rg; x.fillRect(0, 0, W, H); }
+    var shade = x.createLinearGradient(0, 0, 0, H);
+    shade.addColorStop(0, 'rgba(8,6,5,0.72)'); shade.addColorStop(0.2, 'rgba(8,6,5,0.12)');
+    shade.addColorStop(0.5, 'rgba(8,6,5,0.18)'); shade.addColorStop(0.72, 'rgba(8,6,5,0.85)'); shade.addColorStop(1, 'rgba(8,6,5,0.95)');
+    x.fillStyle = shade; x.fillRect(0, 0, W, H);
+    // grain argentique
+    for(var n = 0; n < 9000; n++){ x.fillStyle = 'rgba(255,255,255,' + (Math.random() * 0.05) + ')'; x.fillRect(Math.random() * W, Math.random() * H, 2, 2); }
+    // filet intérieur
+    x.strokeStyle = 'rgba(243,234,219,0.32)'; x.lineWidth = 2; roundRect(x, 34, 34, W - 68, H - 68, 30); x.stroke();
+    // en-tête
+    x.textBaseline = 'alphabetic';
+    x.fillStyle = CREAM; x.font = '700 24px Manrope, Arial, sans-serif'; spaced(x, 'ONLYJAYBABY', 84, 104, 7, 'left');
+    x.fillStyle = '#e8c690'; spaced(x, 'CARTE DE FAN', W - 84, 104, 7, 'right');
+    // titre
+    x.textAlign = 'center';
+    x.shadowColor = 'rgba(0,0,0,0.6)'; x.shadowBlur = 30;
+    x.fillStyle = CREAM; x.font = 'italic 500 178px Fraunces, Georgia, serif';
+    x.fillText('Sur moi', W / 2, 790);
+    x.shadowBlur = 0;
+    x.fillStyle = '#e8c690'; x.font = '700 24px Manrope, Arial, sans-serif'; spaced(x, 'NOUVEAU SINGLE  ·  23.10.2026', W / 2, 850, 6);
+    // talon de billet crème, découpé (encoches et pointillés)
+    var t = document.createElement('canvas'); t.width = W; t.height = H;
+    var y = t.getContext('2d');
+    var L = 74, T = 930, PW = W - 148, PH = 330;
+    y.fillStyle = CREAM; roundRect(y, L, T, PW, PH, 26); y.fill();
+    y.globalCompositeOperation = 'destination-out';
+    var cut = T + 228;
+    y.beginPath(); y.arc(L, cut, 22, 0, Math.PI * 2); y.arc(L + PW, cut, 22, 0, Math.PI * 2); y.fill();
+    for(var d = L + 44; d < L + PW - 44; d += 26){ y.beginPath(); y.arc(d, cut, 3.2, 0, Math.PI * 2); y.fill(); }
+    y.globalCompositeOperation = 'source-over';
+    x.shadowColor = 'rgba(0,0,0,0.55)'; x.shadowBlur = 40; x.shadowOffsetY = 14;
+    x.drawImage(t, 0, 0);
+    x.shadowBlur = 0; x.shadowOffsetY = 0;
+    // texte du talon
+    x.fillStyle = RED; x.font = '800 22px Manrope, Arial, sans-serif'; spaced(x, 'CETTE CARTE APPARTIENT À', W / 2, T + 64, 6);
+    x.fillStyle = INK;
+    var fs = 120;
+    do { x.font = '600 ' + fs + 'px Fraunces, Georgia, serif'; fs -= 4; } while(x.measureText(name).width > PW - 120 && fs > 44);
+    x.fillText(name, W / 2, T + 178);
+    // bas du talon : sortie, date d'émission, code-barres tiré du prénom
+    var now = new Date(), pad = function(v){ return (v < 10 ? '0' : '') + v; };
+    var issued = pad(now.getDate()) + '.' + pad(now.getMonth() + 1) + '.' + now.getFullYear();
+    x.font = '800 18px Manrope, Arial, sans-serif'; x.fillStyle = 'rgba(22,18,15,0.55)';
+    spaced(x, 'SORTIE', L + 50, cut + 50, 4, 'left'); spaced(x, 'ÉMISE LE', L + 300, cut + 50, 4, 'left');
+    x.font = '700 30px Manrope, Arial, sans-serif'; x.fillStyle = INK;
+    x.textAlign = 'left'; x.fillText('23.10.2026', L + 50, cut + 88); x.fillText(issued, L + 300, cut + 88);
+    var hsh = 7; for(var k = 0; k < name.length; k++) hsh = (hsh * 31 + name.charCodeAt(k)) >>> 0;
+    var bx = L + PW - 50, bw;
+    x.fillStyle = INK;
+    for(var b = 0; b < 34; b++){ hsh = (hsh * 1103515245 + 12345) >>> 0; bw = 2 + (hsh >>> 28) % 4; bx -= bw + 3; if(bx < L + PW - 300) break; x.fillRect(bx, cut + 26, bw, 64); }
+    return c.toDataURL('image/jpeg', 0.92);
   }
   function make(name, animate){
-    var go = function(){
-      img.src = draw(name);
+    var go = function(){ loadCover().then(function(cover){ show(cover); }); };
+    var show = function(cover){
+      img.src = draw(name, cover);
       card.hidden = false;
       if(title){ title.textContent = ''; title.append('Ta carte Sur moi, '); var em = document.createElement('em'); em.textContent = name + '.'; title.appendChild(em); }
       if(animate && card.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
@@ -1156,7 +1208,7 @@
       }
     };
     if(document.fonts && document.fonts.load){
-      Promise.all([document.fonts.load('italic 500 84px Fraunces'), document.fonts.load('600 150px Fraunces'), document.fonts.load('700 26px Manrope')]).then(go, go);
+      Promise.all([document.fonts.load('italic 500 178px Fraunces'), document.fonts.load('600 120px Fraunces'), document.fonts.load('700 24px Manrope'), document.fonts.load('800 22px Manrope')]).then(go, go);
     } else { go(); }
   }
   form.addEventListener('submit', function(e){
