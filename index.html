@@ -120,6 +120,7 @@
     object-fit:cover;
     filter:brightness(0.55) saturate(1.05);
   }
+  .hero video{ object-position:50% 30%; }
   .hero .hero-bg{ filter:brightness(0.78) saturate(1.05); animation:heroZoom 26s ease-in-out infinite alternate; transform-origin:40% 60%; }
   @keyframes heroZoom{ from{ transform:scale(1); } to{ transform:scale(1.08); } }
   @media (prefers-reduced-motion: reduce){ .hero .hero-bg{ animation:none; } }
@@ -647,7 +648,7 @@
 </div>
 
 <div class="hero" id="hero">
-  <img class="hero-bg" src="pas-ma-vie-cover.jpg" alt="" aria-hidden="true">
+  <video autoplay muted loop playsinline preload="auto" poster="pas-ma-vie-cover.jpg" src="pas-ma-vie-canvas.mp4" aria-hidden="true"></video>
   <div class="hero-veil"></div>
   <canvas class="hero-dust" id="heroDust" aria-hidden="true"></canvas>
   <div class="hero-kinetic">
@@ -1236,7 +1237,7 @@ var ETE = { date: new Date(2026, 10, 13, 0, 0, 0).getTime(), url: 'https://distr
     var x = c.getContext('2d');
     x.fillStyle = '#0b0a08'; x.fillRect(0, 0, W, H);
     // fond : la pochette de Pas ma vie, recadrée sur toute la hauteur
-    if(cover){ var sz = H * 1.02; x.drawImage(cover, (W - sz) / 2 + 90, -40, sz, sz); }   // le titre imprimé de la pochette passe sous le talon
+    if(cover){ x.drawImage(cover, 0, 40, W, W); }   // pochette entière, centrée sur la largeur de la carte
     else { var rg = x.createRadialGradient(W / 2, 520, 40, W / 2, 520, 760); rg.addColorStop(0, '#7a0f12'); rg.addColorStop(1, '#0b0a08'); x.fillStyle = rg; x.fillRect(0, 0, W, H); }
     var shade = x.createLinearGradient(0, 0, 0, H);
     shade.addColorStop(0, 'rgba(8,6,5,0.72)'); shade.addColorStop(0.2, 'rgba(8,6,5,0.12)');
