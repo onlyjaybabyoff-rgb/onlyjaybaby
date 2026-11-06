@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>onlyjaybaby</title>
-<meta name="description" content="Sur moi, le nouveau single d'onlyjaybaby, sort le 23 octobre 2026. Pré-save disponible. Making peace et Life déjà disponibles.">
+<meta name="description" content="Pas ma vie (B & L), le nouveau single d'onlyjaybaby, sort le 13 novembre 2026. Sur moi, Making peace et Life déjà disponibles.">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap');
 
@@ -114,12 +114,15 @@
     overflow:hidden;
     border-bottom:1px solid var(--hairline);
   }
-  .hero video{
+  .hero video, .hero .hero-bg{
     position:absolute; inset:0;
     width:100%; height:100%;
     object-fit:cover;
     filter:brightness(0.55) saturate(1.05);
   }
+  .hero .hero-bg{ filter:brightness(0.78) saturate(1.05); animation:heroZoom 26s ease-in-out infinite alternate; transform-origin:40% 60%; }
+  @keyframes heroZoom{ from{ transform:scale(1); } to{ transform:scale(1.08); } }
+  @media (prefers-reduced-motion: reduce){ .hero .hero-bg{ animation:none; } }
   .hero-veil{
     position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(11,10,8,0.5) 0%, rgba(11,10,8,0.2) 35%, rgba(11,10,8,0.85) 100%);
@@ -329,7 +332,7 @@
     --smoke-dim:#a89c8a;
     --hairline: rgba(122,90,46,0.25);
   }
-  :root[data-theme="light"] .hero video{ filter:brightness(0.7) saturate(1.05); }
+  :root[data-theme="light"] .hero video, :root[data-theme="light"] .hero .hero-bg{ filter:brightness(0.7) saturate(1.05); }
   :root[data-theme="light"] .cursor-dot{ background:#7a5a2e; }
   :root[data-theme="light"] .clip-frame video, :root[data-theme="light"] .grain{ opacity:0.03; }
 
@@ -572,7 +575,11 @@
   .vip.unlocked .vip-list .name{ color:var(--cream); }
   .vip.unlocked .vip-list .state{ color:var(--gold-bright); }
   .vip-secret{ margin-top:26px; font-size:12px; color:var(--smoke-dim); font-style:italic; }
-  .vip-track{ display:flex; align-items:center; gap:22px; padding:22px 0 30px 0; margin-bottom:8px; flex-wrap:wrap; }
+  .vip-tracks{ margin-bottom:26px; }
+  .vip-tracks > .vt-msg{ margin:4px 0 6px; }
+  .vip-track{ display:flex; align-items:center; gap:22px; padding:20px 0; flex-wrap:wrap; border-top:1px solid var(--hairline); }
+  .vip-track .vt-tile{ width:96px; height:96px; flex:none; display:flex; align-items:flex-end; padding:10px; background:linear-gradient(150deg, #2a1a12, #0b0a08 70%); border:1px solid var(--hairline); }
+  .vip-track .vt-tile span{ font-family:var(--font-display); font-style:italic; font-size:17px; line-height:1.05; color:var(--gold-bright); }
   .vip [hidden]{ display:none !important; }
   .vip-track img{ width:96px; height:96px; object-fit:cover; flex:none; }
   .vip-track .vt-body{ flex:1; min-width:220px; }
@@ -599,7 +606,7 @@
 <nav>
   <div class="nav-name">onlyjaybaby</div>
   <div style="display:flex; align-items:center; gap:14px;">
-    <a class="nav-presave js-presave-short" href="https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi" target="_blank" rel="noopener">Pré-save</a>
+    <a class="nav-presave js-presave-short js-ete-link" href="https://instagram.com/onlyjaybabyoff" target="_blank" rel="noopener">Suivre</a>
     <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème">🌙</button>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -609,7 +616,7 @@
 
 <div class="fullscreen-menu" id="fullscreenMenu">
   <ul class="fs-links">
-    <li><a href="#presave" class="fs-link">Sur moi</a></li>
+    <li><a href="#presave" class="fs-link">Pas ma vie</a></li>
     <li><a href="#about" class="fs-link">Artiste</a></li>
     <li><a href="#ecoute" class="fs-link">Écouter</a></li>
     <li><a href="#clip" class="fs-link">Clip</a></li>
@@ -640,15 +647,15 @@
 </div>
 
 <div class="hero" id="hero">
-  <video autoplay muted loop playsinline poster="sur-moi-cover.jpg" src="sur-moi-canvas.mp4" aria-hidden="true"></video>
+  <img class="hero-bg" src="pas-ma-vie-cover.jpg" alt="" aria-hidden="true">
   <div class="hero-veil"></div>
   <canvas class="hero-dust" id="heroDust" aria-hidden="true"></canvas>
   <div class="hero-kinetic">
-    <div class="line">Sur moi<br><em id="heroStatus">arrive le 23.10.</em></div>
+    <div class="line">Pas ma vie<br><em id="heroStatus">arrive le 13.11.</em></div>
     <div class="hero-tag">onlyjaybaby — nouveau single</div>
     <div class="hero-cta">
-      <a class="btn-presave" href="https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi" target="_blank" rel="noopener"><span class="js-presave-long">Pré-save sur Spotify</span><span class="arrow">→</span></a>
-      <div class="hero-date" id="heroDate">Sortie le 23 octobre 2026</div>
+      <a class="btn-presave js-ete-link" href="https://instagram.com/onlyjaybabyoff" target="_blank" rel="noopener"><span class="js-presave-long">Suivre sur Instagram</span><span class="arrow">→</span></a>
+      <div class="hero-date" id="heroDate">Sortie le 13 novembre 2026</div>
     </div>
   </div>
   <div class="scroll-cue"><span class="stick"></span>scroll</div>
@@ -656,8 +663,8 @@
 
 <div class="marquee">
   <div class="marquee-track">
-    <span>Sur moi <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">23 octobre 2026</i> <em>—</em> <i class="js-marquee2">pré-save maintenant</i> <em>—</em> Sur moi <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">23 octobre 2026</i> <em>—</em> <i class="js-marquee2">pré-save maintenant</i> <em>—</em></span>
-    <span>Sur moi <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">23 octobre 2026</i> <em>—</em> <i class="js-marquee2">pré-save maintenant</i> <em>—</em> Sur moi <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">23 octobre 2026</i> <em>—</em> <i class="js-marquee2">pré-save maintenant</i> <em>—</em></span>
+    <span>Pas ma vie <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">13 novembre 2026</i> <em>—</em> <i class="js-marquee2">bientôt partout</i> <em>—</em> Pas ma vie <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">13 novembre 2026</i> <em>—</em> <i class="js-marquee2">bientôt partout</i> <em>—</em></span>
+    <span>Pas ma vie <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">13 novembre 2026</i> <em>—</em> <i class="js-marquee2">bientôt partout</i> <em>—</em> Pas ma vie <em>—</em> onlyjaybaby <em>—</em> <i class="js-marquee">13 novembre 2026</i> <em>—</em> <i class="js-marquee2">bientôt partout</i> <em>—</em></span>
   </div>
 </div>
 
@@ -666,22 +673,22 @@
   <div class="wrap section-inner">
     <div class="split">
       <div>
-        <div class="kicker" id="presaveKicker">Nouveau single — 23 octobre 2026</div>
-        <h2>Sur moi,<br><em id="presaveStatus">bientôt chez toi.</em></h2>
-        <p id="presaveText">Fais le pré-save maintenant : <strong>le titre s'ajoute tout seul à ta bibliothèque Spotify</strong> le jour de la sortie. Tu n'as rien d'autre à faire.</p>
+        <div class="kicker" id="presaveKicker">Nouveau single — 13 novembre 2026</div>
+        <h2>Pas ma vie,<br><em id="presaveStatus">bientôt chez toi.</em></h2>
+        <p id="presaveText">« Pas ma vie », avec B &amp; L, sort le 13 novembre. Fais le pré-save maintenant : <strong>le titre s'ajoute tout seul à ta bibliothèque Spotify</strong> le jour de la sortie.</p>
         <div class="countdown" id="countdown" role="timer" aria-label="Temps restant avant la sortie">
           <div class="cell"><div class="n" id="cdDays">--</div><div class="l">jours</div></div>
           <div class="cell"><div class="n" id="cdHours">--</div><div class="l">heures</div></div>
           <div class="cell"><div class="n" id="cdMins">--</div><div class="l">minutes</div></div>
           <div class="cell"><div class="n" id="cdSecs">--</div><div class="l">secondes</div></div>
         </div>
-        <a class="btn-presave" href="https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi" target="_blank" rel="noopener"><span class="js-presave-long">Pré-save sur Spotify</span><span class="arrow">→</span></a>
-        <div class="presave-meta" id="presaveMeta">Gratuit, en deux clics, via HyperFollow.</div>
+        <a class="btn-presave js-ete-link" href="https://instagram.com/onlyjaybabyoff" target="_blank" rel="noopener"><span class="js-presave-long">Suivre sur Instagram</span><span class="arrow">→</span></a>
+        <div class="presave-meta" id="presaveMeta">Le pré-save ouvre très bientôt.</div>
       </div>
       <div class="vinyl-wrap sleeve-wrap" id="vinylWrapPeace">
         <div class="sleeve">
           <canvas id="vinylPeace" class="vinyl3d sleeve-disc" width="440" height="440"></canvas>
-          <video class="sleeve-cover" src="sur-moi-canvas.mp4" poster="sur-moi-cover.jpg" autoplay muted loop playsinline aria-label="Pochette animée de Sur moi : deux silhouettes sur le point de s'embrasser, dans une lumière rouge"></video>
+          <img class="sleeve-cover" src="pas-ma-vie-cover.jpg" alt="Pochette de Pas ma vie : une machine à sous rouge marquée B et L, devant un rideau de velours vert">
         </div>
         <div class="vinyl-hint">Glisse le disque pour le faire tourner</div>
       </div>
@@ -697,7 +704,7 @@
         <div class="kicker">L'artiste</div>
         <h2>Capturer<br><em>des instants de vie.</em></h2>
         <p>onlyjaybaby construit son univers autour d'une idée simple : <strong>capturer des instants de vie</strong>, ceux qu'on garde en mémoire longtemps après qu'ils soient passés.</p>
-        <p>« Life », son premier single, pose les bases d'un projet pensé pour durer — sombre, chaleureux, cinématographique. « Making peace » en est la suite, sortie le 15 octobre 2026, et « Sur moi » arrive le 23 octobre.</p>
+        <p>« Life », son premier single, pose les bases d'un projet pensé pour durer — sombre, chaleureux, cinématographique. « Making peace » en est la suite, sortie le 15 octobre 2026, puis « Sur moi » le 23 octobre. « Pas ma vie » (B & L) arrive le 13 novembre.</p>
       </div>
       <div class="vinyl-wrap" id="vinylWrap">
         <canvas id="vinyl3d" class="vinyl3d" width="440" height="440"></canvas>
@@ -711,7 +718,7 @@
   <div class="discs-glow" id="discsGlow" aria-hidden="true"></div>
   <div class="section-index">03</div>
   <div class="wrap section-inner">
-    <div class="kicker discs-kicker">Déjà disponible</div>
+    <div class="kicker discs-kicker">Les sorties</div>
     <div class="discs-stage" id="discsStage" tabindex="0" aria-label="Sorties d'onlyjaybaby. Flèches gauche et droite pour changer de titre.">
       <button type="button" class="disc-card" data-i="0" aria-label="Life">
         <img src="life-cover.jpg" alt="Pochette de Life" width="400" height="400">
@@ -723,7 +730,11 @@
       </button>
       <button type="button" class="disc-card" data-i="2" aria-label="Sur moi">
         <img src="sur-moi-cover.jpg" alt="Pochette de Sur moi" width="800" height="800">
-        <span class="disc-title">Sur moi</span><span class="disc-sub">Le 23 octobre 2026</span>
+        <span class="disc-title">Sur moi</span><span class="disc-sub">Sorti le 23 octobre 2026</span>
+      </button>
+      <button type="button" class="disc-card" data-i="3" aria-label="Pas ma vie">
+        <img src="pas-ma-vie-cover.jpg" alt="Pochette de Pas ma vie" width="800" height="800">
+        <span class="disc-title">Pas ma vie</span><span class="disc-sub">Le 13 novembre 2026</span>
       </button>
     </div>
     <div class="discs-bar" role="group" aria-label="Lecteur">
@@ -781,14 +792,14 @@
       </div>
       <div>
         <div class="kicker" style="font-size:13px; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px;">Ta carte</div>
-        <h3 id="fanTitle">Une carte Sur moi <em>à ton nom.</em></h3>
+        <h3 id="fanTitle">Une carte Pas ma vie <em>à ton nom.</em></h3>
         <p>Écris ton prénom, le site dessine ta carte. Elle reste sur ton téléphone, rien n'est envoyé.</p>
         <form class="field-row" id="fanForm">
           <input type="text" id="fanName" maxlength="18" placeholder="Ton prénom" autocomplete="given-name" aria-label="Ton prénom" required>
           <button type="submit" class="btn-ghost">Créer ma carte</button>
         </form>
         <div class="fan-card" id="fanCard" hidden>
-          <img id="fanCardImg" alt="Ta carte de fan Sur moi">
+          <img id="fanCardImg" alt="Ta carte de fan Pas ma vie">
           <div class="note">Appui long (ou clic droit) sur la carte pour l'enregistrer, puis partage-la en story.</div>
         </div>
       </div>
@@ -809,17 +820,38 @@
       </form>
       <div class="vip-msg" id="vipMsg" aria-live="polite"></div>
     </div>
-    <div class="vip-track" id="vipTrack" hidden>
-      <img src="sur-moi-cover.jpg" alt="Pochette de Sur moi">
-      <div class="vt-body">
-        <div class="vt-kicker">En avant-première</div>
-        <h3 class="vt-title">Sur moi</h3>
-        <form class="field-row" id="vipTrackForm" hidden>
-          <input type="text" id="vipTrackCode" maxlength="24" placeholder="Code pour écouter" autocomplete="off" aria-label="Code pour écouter">
-          <button type="submit" class="btn-ghost">Écouter</button>
-        </form>
-        <audio id="vipAudio" controls controlsList="nodownload" preload="none" hidden></audio>
-        <div class="vt-msg" id="vipTrackMsg" aria-live="polite"></div>
+    <div class="vip-tracks" id="vipTrack" hidden>
+      <form class="field-row" id="vipTrackForm" hidden>
+        <input type="text" id="vipTrackCode" maxlength="24" placeholder="Code pour écouter" autocomplete="off" aria-label="Code pour écouter">
+        <button type="submit" class="btn-ghost">Écouter</button>
+      </form>
+      <div class="vt-msg" id="vipTrackMsg" aria-live="polite"></div>
+      <div class="vip-track" data-file="vip-c.mp4">
+        <img src="pas-ma-vie-cover.jpg" alt="Pochette de Pas ma vie : une machine à sous rouge marquée B et L, devant un rideau de velours vert">
+        <div class="vt-body">
+          <div class="vt-kicker">En avant-première · sortie le 13 novembre</div>
+          <h3 class="vt-title">Pas ma vie</h3>
+          <audio controls controlsList="nodownload" preload="none" hidden></audio>
+          <div class="vt-msg" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="vip-track" data-file="vip-b.mp4">
+        <img src="ete-hiver-cover.jpg" alt="Pochette d'Été Hiver">
+        <div class="vt-body">
+          <div class="vt-kicker">Inédit · réservé au VIP</div>
+          <h3 class="vt-title">Été Hiver</h3>
+          <audio controls controlsList="nodownload" preload="none" hidden></audio>
+          <div class="vt-msg" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="vip-track" data-file="vip-a.mp4">
+        <img src="sur-moi-cover.jpg" alt="Pochette de Sur moi">
+        <div class="vt-body">
+          <div class="vt-kicker">Le premier son du VIP</div>
+          <h3 class="vt-title">Sur moi</h3>
+          <audio controls controlsList="nodownload" preload="none" hidden></audio>
+          <div class="vt-msg" aria-live="polite"></div>
+        </div>
       </div>
     </div>
     <ul class="vip-list" id="vipList">
@@ -1065,13 +1097,18 @@
 
 
 <script>
-// RELEASE STATE + COUNTDOWN (Making peace — 15 octobre 2026)
+// SORTIE EN COURS : Pas ma vie (B & L), 13 novembre 2026. Le lien HyperFollow est dans url : tous les boutons passent dessus.
+var ETE = { date: new Date(2026, 10, 13, 0, 0, 0).getTime(), url: 'https://distrokid.com/hyperfollow/onlyjaybaby/pas-ma-vie-b--l', ig: 'https://instagram.com/onlyjaybabyoff',
+  link: function(){ return this.url || this.ig; } };
+// RELEASE STATE + COUNTDOWN (Pas ma vie — 13 novembre 2026)
 (function(){
-  var RELEASE = new Date(2026, 9, 23, 0, 0, 0).getTime();   // Sur moi : 23 octobre 2026
+  var RELEASE = ETE.date;
   var $ = function(id){ return document.getElementById(id); };
   var pad = function(n){ return (n < 10 ? '0' : '') + n; };
   var released = false;
   function setText(sel, txt){ document.querySelectorAll(sel).forEach(function(el){ el.textContent = txt; }); }
+  document.querySelectorAll('.js-ete-link').forEach(function(a){ a.href = ETE.link(); });
+  if(ETE.url){ setText('.js-presave-long', 'Pré-save sur Spotify'); setText('.js-presave-short', 'Pré-save'); setText('.js-marquee2', 'pré-save maintenant'); if($('presaveMeta')) $('presaveMeta').textContent = 'Gratuit, en deux clics, via HyperFollow.'; }
   function goLive(){
     released = true;
     if($('heroStatus')) $('heroStatus').textContent = 'est disponible.';
@@ -1079,10 +1116,10 @@
     if($('presaveKicker')) $('presaveKicker').textContent = 'Nouveau single — disponible';
     if($('presaveStatus')) $('presaveStatus').textContent = 'est disponible.';
     if($('presaveText')) $('presaveText').textContent = 'Le nouveau single est sorti. Choisis ta plateforme et lance-le.';
-    if($('presaveMeta')) $('presaveMeta').textContent = 'Toutes les plateformes via HyperFollow.';
+    if($('presaveMeta')) $('presaveMeta').textContent = ETE.url ? 'Toutes les plateformes via HyperFollow.' : 'Le lien d\'écoute arrive sur Instagram.';
     if($('countdown')) $('countdown').hidden = true;
-    setText('.js-presave-long', 'Écouter Sur moi');
-    setText('.js-presave-short', 'Écouter');
+    setText('.js-presave-long', ETE.url ? 'Écouter Pas ma vie' : 'Suivre sur Instagram');
+    setText('.js-presave-short', ETE.url ? 'Écouter' : 'Suivre');
     setText('.js-marquee', 'disponible partout');
     setText('.js-marquee2', 'écoute maintenant');
   }
@@ -1125,7 +1162,8 @@
   var pool = [
     {what:'Un morceau', title:'Life', label:'Écouter sur Spotify →', href:'https://open.spotify.com/track/630CoxrTU1xtK6bTFOLqdL'},
     {what:'Un morceau', title:'Making peace', label:'Écouter →', href:'https://distrokid.com/hyperfollow/onlyjaybaby/making-peace'},
-    {what:'Bientôt', title:'Sur moi, le 23 octobre', label:'Faire le pré-save →', href:'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi'},
+    {what:'Un morceau', title:'Sur moi', label:'Écouter →', href:'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi'},
+    {what:'Bientôt', title:'Pas ma vie, le 13 novembre', label:'Suivre sur Instagram →', href:ETE.link()},
     {what:'Une vidéo', title:'Life, les coulisses', label:'Voir la vidéo →', target:'clip'}
   ];
   photos.forEach(function(img, i){ pool.push({what:'Une photo', title:'Photo n° ' + (i + 1) + ' de la galerie', label:'Voir en grand →', photo:img}); });
@@ -1176,7 +1214,7 @@
       var im = new Image();
       im.onload = function(){ coverImg = im; res(im); };
       im.onerror = function(){ res(null); };
-      im.src = 'sur-moi-cover.jpg';
+      im.src = 'pas-ma-vie-cover.jpg';
     });
   }
   // texte espacé lettre par lettre (petites capitales des billets)
@@ -1193,12 +1231,12 @@
     x.arcTo(l, t + h, l, t, r); x.arcTo(l, t, l + w, t, r); x.closePath();
   }
   function draw(name, cover){
-    var W = 1080, H = 1350, RED = '#a8161a', INK = '#16120f', CREAM = '#f3eadb';
+    var W = 1080, H = 1350, RED = '#c4587a', INK = '#16120f', CREAM = '#f3eadb';
     var c = document.createElement('canvas'); c.width = W; c.height = H;
     var x = c.getContext('2d');
     x.fillStyle = '#0b0a08'; x.fillRect(0, 0, W, H);
-    // fond : la pochette de Sur moi, recadrée sur toute la hauteur
-    if(cover){ var sz = H * 1.02; x.drawImage(cover, (W - sz) / 2, -95, sz, sz); }   // le titre imprimé de la pochette passe sous le talon
+    // fond : la pochette de Pas ma vie, recadrée sur toute la hauteur
+    if(cover){ var sz = H * 1.02; x.drawImage(cover, (W - sz) / 2 + 90, -40, sz, sz); }   // le titre imprimé de la pochette passe sous le talon
     else { var rg = x.createRadialGradient(W / 2, 520, 40, W / 2, 520, 760); rg.addColorStop(0, '#7a0f12'); rg.addColorStop(1, '#0b0a08'); x.fillStyle = rg; x.fillRect(0, 0, W, H); }
     var shade = x.createLinearGradient(0, 0, 0, H);
     shade.addColorStop(0, 'rgba(8,6,5,0.72)'); shade.addColorStop(0.2, 'rgba(8,6,5,0.12)');
@@ -1216,9 +1254,9 @@
     x.textAlign = 'center';
     x.shadowColor = 'rgba(0,0,0,0.6)'; x.shadowBlur = 30;
     x.fillStyle = CREAM; x.font = 'italic 500 178px Fraunces, Georgia, serif';
-    x.fillText('Sur moi', W / 2, 790);
+    x.fillText('Pas ma vie', W / 2, 790);
     x.shadowBlur = 0;
-    x.fillStyle = '#e8c690'; x.font = '700 24px Manrope, Arial, sans-serif'; spaced(x, 'NOUVEAU SINGLE  ·  23.10.2026', W / 2, 850, 6);
+    x.fillStyle = '#e8c690'; x.font = '700 24px Manrope, Arial, sans-serif'; spaced(x, 'NOUVEAU SINGLE  ·  13.11.2026', W / 2, 850, 6);
     // talon de billet crème, découpé (encoches et pointillés)
     var t = document.createElement('canvas'); t.width = W; t.height = H;
     var y = t.getContext('2d');
@@ -1244,7 +1282,7 @@
     x.font = '800 18px Manrope, Arial, sans-serif'; x.fillStyle = 'rgba(22,18,15,0.55)';
     spaced(x, 'SORTIE', L + 50, cut + 50, 4, 'left'); spaced(x, 'ÉMISE LE', L + 300, cut + 50, 4, 'left');
     x.font = '700 30px Manrope, Arial, sans-serif'; x.fillStyle = INK;
-    x.textAlign = 'left'; x.fillText('23.10.2026', L + 50, cut + 88); x.fillText(issued, L + 300, cut + 88);
+    x.textAlign = 'left'; x.fillText('13.11.2026', L + 50, cut + 88); x.fillText(issued, L + 300, cut + 88);
     var hsh = 7; for(var k = 0; k < name.length; k++) hsh = (hsh * 31 + name.charCodeAt(k)) >>> 0;
     var bx = L + PW - 50, bw;
     x.fillStyle = INK;
@@ -1256,7 +1294,7 @@
     var show = function(cover){
       img.src = draw(name, cover);
       card.hidden = false;
-      if(title){ title.textContent = ''; title.append('Ta carte Sur moi, '); var em = document.createElement('em'); em.textContent = name + '.'; title.appendChild(em); }
+      if(title){ title.textContent = ''; title.append('Ta carte Pas ma vie, '); var em = document.createElement('em'); em.textContent = name + '.'; title.appendChild(em); }
       if(animate && card.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         card.animate([{opacity:0, transform:'translateY(20px) rotate(-2deg)'},{opacity:1, transform:'translateY(0) rotate(0)'}], {duration:700, easing:'cubic-bezier(.22,1,.36,1)'});
       }
@@ -1289,28 +1327,38 @@
   var trackForm = document.getElementById('vipTrackForm');
   var trackInput = document.getElementById('vipTrackCode');
   var trackMsg = document.getElementById('vipTrackMsg');
-  var player = document.getElementById('vipAudio');
-  // le morceau est chiffré avec le code : sans lui, le fichier en ligne ne s'écoute pas
-  function loadTrack(code){
-    if(!window.crypto || !crypto.subtle){ trackMsg.textContent = 'Ton navigateur ne peut pas lire ce morceau.'; return; }
-    trackForm.hidden = true;
-    trackMsg.textContent = 'Ouverture du morceau…';
+  var items = Array.prototype.slice.call(track.querySelectorAll('.vip-track'));
+  // chaque morceau est chiffré avec le code : sans lui, les fichiers en ligne ne s'écoutent pas
+  function openFile(file, code){
     var enc = new TextEncoder();
-    fetch('vip-a.bin').then(function(r){ if(!r.ok) throw new Error('fetch'); return r.arrayBuffer(); }).then(function(buf){
+    return fetch(file).then(function(r){ if(!r.ok) throw new Error('fetch'); return r.arrayBuffer(); }).then(function(buf){
       var salt = buf.slice(0, 16), iv = buf.slice(16, 28), data = buf.slice(28);
       return crypto.subtle.importKey('raw', enc.encode(code), 'PBKDF2', false, ['deriveKey']).then(function(base){
         return crypto.subtle.deriveKey({name:'PBKDF2', salt:salt, iterations:600000, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, false, ['decrypt']);
       }).then(function(key){
         return crypto.subtle.decrypt({name:'AES-GCM', iv:iv}, key, data);
       });
-    }).then(function(plain){
-      player.src = URL.createObjectURL(new Blob([plain], {type:'audio/mp4'}));
-      player.hidden = false;
-      trackMsg.textContent = '';
-      try{ localStorage.setItem('ojb-vip-code', code); }catch(err){}
-    }).catch(function(){
-      trackMsg.textContent = 'Impossible d\'ouvrir le morceau avec ce code.';
-      trackForm.hidden = false;
+    });
+  }
+  function loadTrack(code){
+    if(!window.crypto || !crypto.subtle){ trackMsg.textContent = 'Ton navigateur ne peut pas lire ces morceaux.'; return; }
+    trackForm.hidden = true;
+    trackMsg.textContent = 'Ouverture des morceaux…';
+    var ok = 0;
+    Promise.all(items.map(function(it){
+      var player = it.querySelector('audio'), m = it.querySelector('.vt-msg');
+      return openFile(it.getAttribute('data-file'), code).then(function(plain){
+        player.src = URL.createObjectURL(new Blob([plain], {type:'audio/mp4'}));
+        player.hidden = false; m.textContent = ''; ok++;
+      }, function(){ m.textContent = 'Ce morceau ne s\'ouvre pas.'; });
+    })).then(function(){
+      if(ok){ trackMsg.textContent = ''; try{ localStorage.setItem('ojb-vip-code', code); }catch(err){} }
+      else { trackMsg.textContent = 'Impossible d\'ouvrir les morceaux avec ce code.'; trackForm.hidden = false; items.forEach(function(it){ it.querySelector('.vt-msg').textContent = ''; }); }
+    });
+    // un seul morceau à la fois
+    items.forEach(function(it){
+      var a = it.querySelector('audio');
+      a.onplay = function(){ items.forEach(function(o){ var b = o.querySelector('audio'); if(b !== a) b.pause(); }); };
     });
   }
   trackForm.addEventListener('submit', function(e){
@@ -1585,7 +1633,7 @@
     loop();
   }
 
-  makeVinyl('vinylPeace', 'vinylWrapPeace', ['Sur', 'moi'], 66, 'sur-moi-cover.jpg');
+  makeVinyl('vinylPeace', 'vinylWrapPeace', ['Pas ma', 'vie'], 58, 'pas-ma-vie-cover.jpg');
   makeVinyl('vinyl3d', 'vinylWrap', ['Life'], 96);
 })();
 </script>
@@ -2364,11 +2412,13 @@
       platforms:[['Spotify', 'https://open.spotify.com/track/630CoxrTU1xtK6bTFOLqdL'], ['Apple Music', 'https://music.apple.com/fr/album/life/6813283540?i=6813283541'], ['YouTube Music', 'https://music.youtube.com/watch?v=QLqpdzLhPEo'], ['Deezer', 'https://link.deezer.com/s/34tEs08K3ZdqpbOyrmtoK']]},
     {title:'Making peace', cover:'making-peace-cover.jpg', src:'making-peace-audio.mp4', link:'https://distrokid.com/hyperfollow/onlyjaybaby/making-peace', label:'Écouter →', sub:'onlyjaybaby · extrait de 30 s',
       platforms:[['Toutes les plateformes', 'https://distrokid.com/hyperfollow/onlyjaybaby/making-peace']]},
-    {title:'Sur moi', cover:'sur-moi-cover.jpg', src:null, link:'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi', label:'Pré-save →', sub:'Sortie le 23 octobre 2026',
-      platforms:[['Pré-save sur Spotify', 'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi']]}
+    {title:'Sur moi', cover:'sur-moi-cover.jpg', src:null, link:'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi', label:'Écouter →', sub:'onlyjaybaby',
+      platforms:[['Toutes les plateformes', 'https://distrokid.com/hyperfollow/onlyjaybaby/sur-moi']]},
+    {title:'Pas ma vie', cover:'pas-ma-vie-cover.jpg', src:null, link:ETE.link(), label:ETE.url ? 'Pré-save →' : 'Suivre →', sub:'Sortie le 13 novembre 2026',
+      platforms:[[ETE.url ? 'Pré-save' : 'Suivre sur Instagram', ETE.link()]]}
   ];
-  if(Date.now() >= new Date(2026, 9, 23).getTime()){ RELEASES[2].label = 'Écouter →'; RELEASES[2].sub = 'onlyjaybaby'; RELEASES[2].platforms[0][0] = 'Toutes les plateformes'; }
-  var cur = 1;
+  if(Date.now() >= ETE.date){ RELEASES[3].sub = 'onlyjaybaby'; if(ETE.url){ RELEASES[3].label = 'Écouter →'; RELEASES[3].platforms[0][0] = 'Toutes les plateformes'; } }
+  var cur = 3;
   var PLAY = 'M7 5v14l12-7z', PAUSE = 'M6 5h4v14H6zM14 5h4v14h-4z';
   function layout(){
     cards.forEach(function(c, i){
